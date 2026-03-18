@@ -33,7 +33,7 @@ class ResponseCollection extends SplStack
      *
      * @param  bool $flag
      */
-    public function setStopped($flag)
+    public function setStopped($flag): void
     {
         $this->stopped = (bool) $flag;
     }
@@ -43,7 +43,7 @@ class ResponseCollection extends SplStack
      *
      * @return mixed The first handler return value
      */
-    public function first()
+    public function first(): mixed
     {
         return parent::bottom();
     }
@@ -68,9 +68,8 @@ class ResponseCollection extends SplStack
      * Check if any of the responses match the given value.
      *
      * @param  mixed $value The value to look for among responses
-     * @return bool
      */
-    public function contains($value)
+    public function contains($value): bool
     {
         foreach ($this as $response) {
             if ($response === $value) {

@@ -33,7 +33,7 @@ trait EventManagerAwareTrait
      * identifiers, in addition to any string or array of strings set to the
      * $this->eventIdentifier property.
      */
-    public function setEventManager(EventManagerInterface $events)
+    public function setEventManager(EventManagerInterface $events): void
     {
         $identifiers = [self::class, static::class];
         if (isset($this->eventIdentifier)) {

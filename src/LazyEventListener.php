@@ -23,10 +23,10 @@ use function is_string;
 class LazyEventListener extends LazyListener
 {
     /** @var string Event name to which to attach. */
-    private $event;
+    private readonly string $event;
 
     /** @var null|int Priority at which to attach. */
-    private $priority;
+    private readonly ?int $priority;
 
     public function __construct(array $definition, ContainerInterface $container, array $env = [])
     {

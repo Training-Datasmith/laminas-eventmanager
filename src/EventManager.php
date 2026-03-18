@@ -58,10 +58,8 @@ class EventManager implements EventManagerInterface
 
     /**
      * Shared event manager
-     *
-     * @var null|SharedEventManagerInterface
      */
-    protected $sharedManager;
+    protected ?\Laminas\EventManager\SharedEventManagerInterface $sharedManager;
 
     /**
      * Constructor
@@ -82,7 +80,7 @@ class EventManager implements EventManagerInterface
     /**
      * @inheritDoc
      */
-    public function setEventPrototype(EventInterface $prototype)
+    public function setEventPrototype(EventInterface $prototype): void
     {
         $this->eventPrototype = $prototype;
     }
@@ -108,7 +106,7 @@ class EventManager implements EventManagerInterface
     /**
      * @inheritDoc
      */
-    public function setIdentifiers(array $identifiers)
+    public function setIdentifiers(array $identifiers): void
     {
         $this->identifiers = array_unique($identifiers);
     }
@@ -116,7 +114,7 @@ class EventManager implements EventManagerInterface
     /**
      * @inheritDoc
      */
-    public function addIdentifiers(array $identifiers)
+    public function addIdentifiers(array $identifiers): void
     {
         $this->identifiers = array_unique(array_merge(
             $this->identifiers,
@@ -181,7 +179,7 @@ class EventManager implements EventManagerInterface
     /**
      * @inheritDoc
      */
-    public function attach($eventName, callable $listener, $priority = 1)
+    public function attach($eventName, callable $listener, $priority = 1): callable
     {
         if (! is_string($eventName)) {
             throw new Exception\InvalidArgumentException(sprintf(
@@ -199,7 +197,7 @@ class EventManager implements EventManagerInterface
      * @inheritDoc
      * @throws Exception\InvalidArgumentException For invalid event types.
      */
-    public function detach(callable $listener, $eventName = null, $force = false)
+    public function detach(callable $listener, $eventName = null, $force = false): void
     {
         // If event is wildcard, we need to iterate through each listeners
         if (null === $eventName || ('*' === $eventName && ! $force)) {
@@ -247,7 +245,7 @@ class EventManager implements EventManagerInterface
     /**
      * @inheritDoc
      */
-    public function clearListeners($eventName)
+    public function clearListeners($eventName): void
     {
         if (isset($this->events[$eventName])) {
             unset($this->events[$eventName]);
@@ -266,7 +264,7 @@ class EventManager implements EventManagerInterface
      * @param  array<Tk, Tv> $args
      * @return ArrayObject<Tk, Tv>
      */
-    public function prepareArgs(array $args)
+    public function prepareArgs(array $args): \ArrayObject
     {
         return new ArrayObject($args);
     }
@@ -275,10 +273,8 @@ class EventManager implements EventManagerInterface
      * Trigger listeners
      *
      * Actual functionality for triggering listeners, to which trigger() delegate.
-     *
-     * @return ResponseCollection
      */
-    protected function triggerListeners(EventInterface $event, ?callable $callback = null)
+    protected function triggerListeners(EventInterface $event, ?callable $callback = null): \Laminas\EventManager\ResponseCollection
     {
         $name = $event->getName();
 

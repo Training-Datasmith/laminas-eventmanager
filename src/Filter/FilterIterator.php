@@ -46,10 +46,9 @@ class FilterIterator extends FastPriorityQueue
      *
      * @param callable $value
      * @param int $priority
-     * @return void
      * @throws Exception\InvalidArgumentException For non-callable $value.
      */
-    public function insert($value, $priority)
+    public function insert($value, $priority): void
     {
         if (! is_callable($value)) {
             throw new Exception\InvalidArgumentException(sprintf(

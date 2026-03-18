@@ -31,10 +31,10 @@ class LazyListener
     private $listener;
 
     /** @var string Method name to invoke on listener. */
-    private $method;
+    private readonly string $method;
 
     /** @var string Service name of listener. */
-    private $service;
+    private readonly string $service;
 
     public function __construct(
         array $definition,

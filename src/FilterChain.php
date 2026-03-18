@@ -10,7 +10,7 @@ namespace Laminas\EventManager;
 class FilterChain implements Filter\FilterInterface
 {
     /** @var Filter\FilterIterator All filters */
-    protected $filters;
+    protected \Laminas\EventManager\Filter\FilterIterator $filters;
 
     /**
      * Constructor
@@ -53,7 +53,7 @@ class FilterChain implements Filter\FilterInterface
      * @return CallbackHandler (to allow later unsubscribe)
      * @throws Exception\InvalidCallbackException
      */
-    public function attach(callable $callback, $priority = 1)
+    public function attach(callable $callback, $priority = 1): callable
     {
         $this->filters->insert($callback, $priority);
         return $callback;
@@ -81,10 +81,8 @@ class FilterChain implements Filter\FilterInterface
 
     /**
      * Clear all filters
-     *
-     * @return void
      */
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->filters = new Filter\FilterIterator();
     }
@@ -97,7 +95,7 @@ class FilterChain implements Filter\FilterInterface
      *
      * @return null|ResponseCollection
      */
-    public function getResponses()
+    public function getResponses(): null
     {
         return null;
     }

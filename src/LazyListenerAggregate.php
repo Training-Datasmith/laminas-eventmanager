@@ -36,7 +36,7 @@ class LazyListenerAggregate implements ListenerAggregateInterface
      *
      * @var LazyEventListener[]
      */
-    private $lazyListeners = [];
+    private array $lazyListeners = [];
 
     /**
      * Constructor
@@ -89,9 +89,8 @@ class LazyListenerAggregate implements ListenerAggregateInterface
      * event manager.
      *
      * @param int $priority
-     * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         foreach ($this->lazyListeners as $lazyListener) {
             $this->listeners[] = $events->attach(

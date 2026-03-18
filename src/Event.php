@@ -91,7 +91,7 @@ class Event implements EventInterface
      * @psalm-this-out static&self<TTarget, NewTParams>
      * @throws Exception\InvalidArgumentException
      */
-    public function setParams($params)
+    public function setParams($params): void
     {
         /** @psalm-suppress DocblockTypeContradiction, RedundantCondition Sanity check to actually enforce docblock. */
         if (! is_array($params) && ! is_object($params)) {
@@ -138,7 +138,7 @@ class Event implements EventInterface
     /**
      * {@inheritDoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         /** @psalm-suppress RedundantCastGivenDocblockType Cast is safety measure in case caller passes junk. */
         $this->name = (string) $name;
@@ -151,7 +151,7 @@ class Event implements EventInterface
      * @psalm-param NewTTarget $target
      * @psalm-this-out static&self<NewTTarget, TParams>
      */
-    public function setTarget($target)
+    public function setTarget($target): void
     {
         /** @psalm-suppress InvalidPropertyAssignmentValue Pretty sure this is correct after this-out. */
         $this->target = $target;
@@ -160,7 +160,7 @@ class Event implements EventInterface
     /**
      * {@inheritDoc}
      */
-    public function setParam($name, $value)
+    public function setParam($name, $value): void
     {
         if (is_array($this->params) || $this->params instanceof ArrayAccess) {
             // Arrays or objects implementing array access
@@ -176,7 +176,7 @@ class Event implements EventInterface
     /**
      * {@inheritDoc}
      */
-    public function stopPropagation($flag = true)
+    public function stopPropagation($flag = true): void
     {
         /** @psalm-suppress RedundantCastGivenDocblockType Cast is safety measure in case caller passes junk. */
         $this->stopPropagation = (bool) $flag;

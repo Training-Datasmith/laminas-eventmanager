@@ -55,11 +55,10 @@ class SharedEventManager implements SharedEventManagerInterface
      * @param  string $event
      * @param  callable $listener Listener that will handle the event.
      * @param  int $priority Priority at which listener should execute
-     * @return void
      * @throws Exception\InvalidArgumentException For invalid identifier arguments.
      * @throws Exception\InvalidArgumentException For invalid event arguments.
      */
-    public function attach($identifier, $event, callable $listener, $priority = 1)
+    public function attach($identifier, $event, callable $listener, $priority = 1): void
     {
         if (! is_string($identifier) || empty($identifier)) {
             throw new Exception\InvalidArgumentException(sprintf(
@@ -81,7 +80,7 @@ class SharedEventManager implements SharedEventManagerInterface
     /**
      * @inheritDoc
      */
-    public function detach(callable $listener, $identifier = null, $eventName = null, $force = false)
+    public function detach(callable $listener, $identifier = null, $eventName = null, $force = false): void
     {
         // No identifier or wildcard identifier: loop through all identifiers and detach
         if (null === $identifier || ('*' === $identifier && ! $force)) {
@@ -158,7 +157,7 @@ class SharedEventManager implements SharedEventManagerInterface
      * @return array[]
      * @throws Exception\InvalidArgumentException
      */
-    public function getListeners(array $identifiers, $eventName)
+    public function getListeners(array $identifiers, $eventName): array
     {
         if ('*' === $eventName || ! is_string($eventName) || empty($eventName)) {
             throw new Exception\InvalidArgumentException(sprintf(
