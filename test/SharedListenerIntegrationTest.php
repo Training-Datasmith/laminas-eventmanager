@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function array_rand;
+
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\SharedEventManager;
 use LaminasTest\EventManager\TestAsset\CountingListener;
+
 use PHPUnit\Framework\TestCase;
 
-use function array_rand;
 use function range;
 use function sprintf;
 

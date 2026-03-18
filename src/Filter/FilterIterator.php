@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager\Filter;
+
+use function assert;
+use function get_debug_type;
+use function is_callable;
 
 use Laminas\EventManager\Exception;
 use Laminas\Stdlib\FastPriorityQueue;
 use ReturnTypeWillChange;
 
-use function assert;
-use function get_debug_type;
-use function is_callable;
 use function sprintf;
 
 /**

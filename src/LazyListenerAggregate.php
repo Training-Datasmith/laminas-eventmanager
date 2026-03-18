@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager;
+
+use function get_debug_type;
+
+use function is_array;
 
 use Psr\Container\ContainerInterface;
 
-use function get_debug_type;
-use function is_array;
 use function sprintf;
 
 /**

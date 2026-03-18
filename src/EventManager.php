@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager;
+
+use function array_keys;
+
+use function array_merge;
+use function array_unique;
 
 use ArrayObject;
 
-use function array_keys;
-use function array_merge;
-use function array_unique;
 use function get_debug_type;
 use function is_callable;
 use function is_string;

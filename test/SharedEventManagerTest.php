@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function array_shift;
+
 use Closure;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\Exception;
 use Laminas\EventManager\SharedEventManager;
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use PHPUnit\Framework\TestCase;
 
-use function array_shift;
 use function sprintf;
 use function var_export;
 

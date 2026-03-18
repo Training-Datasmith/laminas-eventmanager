@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function in_array;
+
 use Laminas\EventManager\EventManagerInterface;
 use LaminasTest\EventManager\TestAsset\MockListenerAggregateTrait;
-use PHPUnit\Framework\TestCase;
 
-use function in_array;
+use PHPUnit\Framework\TestCase;
 
 final class ListenerAggregateTraitTest extends TestCase
 {

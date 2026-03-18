@@ -1,19 +1,23 @@
 <?php
 
-namespace Laminas\EventManager\Test;
+declare(strict_types=1);
 
-use Laminas\EventManager\EventManager;
-use PHPUnit\Framework\Assert;
-use ReflectionProperty;
-use Traversable;
+namespace Laminas\EventManager\Test;
 
 use function array_keys;
 use function array_merge;
 use function iterator_to_array;
 use function krsort;
-use function sprintf;
+
+use Laminas\EventManager\EventManager;
+use PHPUnit\Framework\Assert;
+use ReflectionProperty;
 
 use const SORT_NUMERIC;
+
+use function sprintf;
+
+use Traversable;
 
 /**
  * Trait providing utility methods and assertions for use in PHPUnit test cases.

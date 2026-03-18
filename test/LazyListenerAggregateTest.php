@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function array_shift;
+use function in_array;
+
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\Exception\InvalidArgumentException;
@@ -13,11 +16,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-
-use function array_shift;
-use function in_array;
 
 final class LazyListenerAggregateTest extends TestCase
 {

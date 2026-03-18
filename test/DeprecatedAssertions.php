@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace LaminasTest\EventManager;
 
 use PHPUnit\Framework\Assert;
-use ReflectionClass;
-use stdClass;
 
 use function property_exists;
+
+use ReflectionClass;
+
 use function sprintf;
+
+use stdClass;
 
 // phpcs:ignore WebimpressCodingStandard.NamingConventions.Trait.Suffix
 trait DeprecatedAssertions

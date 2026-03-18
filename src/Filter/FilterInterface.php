@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager\Filter;
 
 use Laminas\EventManager\ResponseCollection;

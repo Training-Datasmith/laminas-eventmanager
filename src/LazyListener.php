@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager;
 
-use Psr\Container\ContainerInterface;
-
 use function is_string;
+
 use function method_exists;
+
+use Psr\Container\ContainerInterface;
 
 /**
  * Lazy listener instance.

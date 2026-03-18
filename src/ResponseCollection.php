@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\EventManager;
 
-use SplStack;
-
 use function count;
+
+use SplStack;
 
 /**
  * Collection of signal handler return values

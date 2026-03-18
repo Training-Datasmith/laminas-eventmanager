@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function array_shift;
+use function count;
+use function iterator_to_array;
+
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
+
 use Laminas\EventManager\SharedEventManager;
 use PHPUnit\Framework\TestCase;
 use SplQueue;
 
-use function array_shift;
-use function count;
-use function iterator_to_array;
 use function sprintf;
 use function var_export;
 

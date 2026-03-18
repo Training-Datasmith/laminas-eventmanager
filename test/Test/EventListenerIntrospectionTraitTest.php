@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager\Test;
 
+use function iterator_to_array;
+
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
-use Traversable;
 
-use function iterator_to_array;
 use function sprintf;
+
+use Traversable;
 
 final class EventListenerIntrospectionTraitTest extends TestCase
 {
@@ -27,9 +29,12 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testGetEventsFromEventManagerReturnsEventList(): void
     {
         // @codingStandardsIgnoreStart
-        $this->events->attach('foo', function ($e) {});
-        $this->events->attach('bar', function ($e) {});
-        $this->events->attach('baz', function ($e) {});
+        $this->events->attach('foo', function ($e) {
+        });
+        $this->events->attach('bar', function ($e) {
+        });
+        $this->events->attach('baz', function ($e) {
+        });
         // @codingStandardsIgnoreEnd
 
         self::assertEquals(['foo', 'bar', 'baz'], $this->getEventsFromEventManager($this->events));
@@ -38,11 +43,16 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testGetListenersForEventReturnsIteratorOfListenersForEventInPriorityOrder(): void
     {
         // @codingStandardsIgnoreStart
-        $callback1 = function ($e) {};
-        $callback2 = function ($e) {};
-        $callback3 = function ($e) {};
-        $callback4 = function ($e) {};
-        $callback5 = function ($e) {};
+        $callback1 = function ($e) {
+        };
+        $callback2 = function ($e) {
+        };
+        $callback3 = function ($e) {
+        };
+        $callback4 = function ($e) {
+        };
+        $callback5 = function ($e) {
+        };
         // @codingStandardsIgnoreEnd
 
         $this->events->attach('foo', $callback5, 1);
@@ -67,11 +77,16 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testGetListenersForEventReturnsIteratorOfListenersInAttachmentOrderWhenSamePriority(): void
     {
         // @codingStandardsIgnoreStart
-        $callback1 = function ($e) {};
-        $callback2 = function ($e) {};
-        $callback3 = function ($e) {};
-        $callback4 = function ($e) {};
-        $callback5 = function ($e) {};
+        $callback1 = function ($e) {
+        };
+        $callback2 = function ($e) {
+        };
+        $callback3 = function ($e) {
+        };
+        $callback4 = function ($e) {
+        };
+        $callback5 = function ($e) {
+        };
         // @codingStandardsIgnoreEnd
 
         $this->events->attach('foo', $callback5);
@@ -96,11 +111,16 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testGetListenersForEventCanReturnPriorityKeysWhenRequested(): void
     {
         // @codingStandardsIgnoreStart
-        $callback1 = function ($e) {};
-        $callback2 = function ($e) {};
-        $callback3 = function ($e) {};
-        $callback4 = function ($e) {};
-        $callback5 = function ($e) {};
+        $callback1 = function ($e) {
+        };
+        $callback2 = function ($e) {
+        };
+        $callback3 = function ($e) {
+        };
+        $callback4 = function ($e) {
+        };
+        $callback5 = function ($e) {
+        };
         // @codingStandardsIgnoreEnd
 
         $this->events->attach('foo', $callback5, 1);
@@ -125,11 +145,16 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testGetArrayOfListenersForEventReturnsArrayOfListenersInPriorityOrder(): void
     {
         // @codingStandardsIgnoreStart
-        $callback1 = function ($e) {};
-        $callback2 = function ($e) {};
-        $callback3 = function ($e) {};
-        $callback4 = function ($e) {};
-        $callback5 = function ($e) {};
+        $callback1 = function ($e) {
+        };
+        $callback2 = function ($e) {
+        };
+        $callback3 = function ($e) {
+        };
+        $callback4 = function ($e) {
+        };
+        $callback5 = function ($e) {
+        };
         // @codingStandardsIgnoreEnd
 
         $this->events->attach('foo', $callback5, 1);
@@ -153,7 +178,8 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     public function testAssertListenerAtPriorityPassesWhenListenerIsFound(): void
     {
         // @codingStandardsIgnoreStart
-        $callback = function ($e) {};
+        $callback = function ($e) {
+        };
         // @codingStandardsIgnoreEnd
 
         $this->events->attach('foo', $callback, 7);
@@ -165,11 +191,13 @@ final class EventListenerIntrospectionTraitTest extends TestCase
     {
         // @codingStandardsIgnoreStart
         $event = 'foo';
-        $listener = static function (): void {};
+        $listener = static function (): void {
+        };
         $priority = 7;
         $this->events->attach($event, $listener, $priority);
 
-        $alternate = static function (): void {};
+        $alternate = static function (): void {
+        };
 
         $permutations = [
             'different-listener' => ['listener' => $alternate, 'priority' => $priority,     'event' => $event],

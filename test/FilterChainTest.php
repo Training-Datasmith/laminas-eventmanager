@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace LaminasTest\EventManager;
 
+use function hash;
+
 use Laminas\EventManager\Filter\FilterIterator;
 use Laminas\EventManager\FilterChain;
+
 use PHPUnit\Framework\TestCase;
 
-use function hash;
 use function str_rot13;
 use function trim;
 
