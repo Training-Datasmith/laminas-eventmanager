@@ -1,17 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function get_debug_type;
-
 use function is_array;
-
-use Psr\Container\ContainerInterface;
-
+use Psr\Container\Container_Interface;
 use function sprintf;
-
 /**
  * Aggregate listener for attaching lazy listeners.
  *
@@ -31,17 +26,15 @@ use function sprintf;
  *
  * @final This class should not be extended
  */
-class LazyListenerAggregate implements ListenerAggregateInterface
+class Lazy_Listener_Aggregate implements Listener_Aggregate_Interface
 {
-    use ListenerAggregateTrait;
-
+    use Listener_Aggregate_Trait;
     /**
      * Generated LazyEventListener instances.
      *
      * @var LazyEventListener[]
      */
-    private array $lazyListeners = [];
-
+    private array $lazy_listeners = [];
     /**
      * Constructor
      *
@@ -63,29 +56,24 @@ class LazyListenerAggregate implements ListenerAggregateInterface
         /**
          * @var ContainerInterface Container from which to pull lazy listeners
          */
-        private ContainerInterface $container,
+        private Container_Interface $container,
         /**
          * @var array Additional environment/option variables to use when creating listener
          */
         private array $env = []
-    ) {
+    )
+    {
         // This would raise an exception for invalid structs
         foreach ($listeners as $listener) {
             if (is_array($listener)) {
-                $listener = new LazyEventListener($listener, $container, $env);
+                $listener = new Lazy_Event_Listener($listener, $container, $env);
             }
-
-            if (! $listener instanceof LazyEventListener) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'All listeners must be LazyEventListener instances or definitions; received %s',
-                    get_debug_type($listener),
-                ));
+            if (!$listener instanceof Lazy_Event_Listener) {
+                throw new Exception\InvalidArgumentException(sprintf('All listeners must be LazyEventListener instances or definitions; received %s', get_debug_type($listener)));
             }
-
-            $this->lazyListeners[] = $listener;
+            $this->lazy_listeners[] = $listener;
         }
     }
-
     /**
      * Attach the aggregate to the event manager.
      *
@@ -94,14 +82,10 @@ class LazyListenerAggregate implements ListenerAggregateInterface
      *
      * @param int $priority
      */
-    public function attach(EventManagerInterface $events, $priority = 1): void
+    public function attach(Event_Manager_Interface $events, $priority = 1): void
     {
-        foreach ($this->lazyListeners as $lazyListener) {
-            $this->listeners[] = $events->attach(
-                $lazyListener->getEvent(),
-                $lazyListener,
-                $lazyListener->getPriority($priority)
-            );
+        foreach ($this->lazy_listeners as $lazy_listener) {
+            $this->listeners[] = $events->attach($lazy_listener->get_event(), $lazy_listener, $lazy_listener->get_priority($priority));
         }
     }
 }

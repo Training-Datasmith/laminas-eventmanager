@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * Provides logic to easily create aggregate listeners, without worrying about
  * manually detaching events
  */
-trait ListenerAggregateTrait
+trait Listener_Aggregate_Trait
 {
     /** @var callable[] */
     protected $listeners = [];
-
     /**
      * {@inheritDoc}
      */
-    public function detach(EventManagerInterface $events): void
+    public function detach(Event_Manager_Interface $events): void
     {
         foreach ($this->listeners as $index => $callback) {
             $events->detach($callback);

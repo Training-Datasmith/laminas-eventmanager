@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * Interface for shared event listener collections
  */
-interface SharedEventManagerInterface
+interface Shared_Event_Manager_Interface
 {
     /**
      * Attach a listener to an event emitted by components with specific identifiers.
@@ -18,8 +17,7 @@ interface SharedEventManagerInterface
      * @param  int $priority Priority at which listener should execute
      * @return void
      */
-    public function attach($identifier, $eventName, callable $listener, $priority = 1);
-
+    public function attach($identifier, $event_name, callable $listener, $priority = 1);
     /**
      * Detach a shared listener.
      *
@@ -35,16 +33,14 @@ interface SharedEventManagerInterface
      * @throws Exception\InvalidArgumentException For invalid identifier arguments.
      * @throws Exception\InvalidArgumentException For invalid event arguments.
      */
-    public function detach(callable $listener, $identifier = null, $eventName = null);
-
+    public function detach(callable $listener, $identifier = null, $event_name = null);
     /**
      * Retrieve all listeners for given identifiers
      *
      * @param  string $eventName
      * @return array
      */
-    public function getListeners(array $identifiers, $eventName);
-
+    public function get_listeners(array $identifiers, $event_name);
     /**
      * Clear all listeners for a given identifier, optionally for a specific event
      *
@@ -52,5 +48,5 @@ interface SharedEventManagerInterface
      * @param  null|string $eventName
      * @return void|false
      */
-    public function clearListeners($identifier, $eventName = null);
+    public function clear_listeners($identifier, $event_name = null);
 }

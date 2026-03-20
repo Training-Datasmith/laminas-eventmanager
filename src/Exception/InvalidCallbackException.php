@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager\Exception;
+declare (strict_types=1);
+namespace Laminas\Event_Manager\Exception;
 
 /**
  * Invalid callback exception
  *
  * @final This class should not be extended
  */
-class InvalidCallbackException extends DomainException implements ExceptionInterface
+class Invalid_Callback_Exception extends DomainException implements Exception_Interface
 {
 }

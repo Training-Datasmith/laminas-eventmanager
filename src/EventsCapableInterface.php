@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * Interface indicating that an object composes an EventManagerInterface instance.
  */
-interface EventsCapableInterface
+interface Events_Capable_Interface
 {
     /**
      * Retrieve the event manager
@@ -16,5 +15,5 @@ interface EventsCapableInterface
      *
      * @return EventManagerInterface
      */
-    public function getEventManager();
+    public function get_event_manager();
 }

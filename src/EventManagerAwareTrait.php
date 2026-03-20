@@ -1,19 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function array_merge;
-
 use function array_unique;
 use function is_array;
 use function is_object;
 use function is_string;
 use function method_exists;
-
 use Traversable;
-
 /**
  * A trait for objects that provide events.
  *
@@ -24,11 +20,10 @@ use Traversable;
  *
  * @see Laminas\Mvc\Service\ServiceManagerConfig
  */
-trait EventManagerAwareTrait
+trait Event_Manager_Aware_Trait
 {
     /** @var EventManagerInterface */
     protected $events;
-
     /**
      * Set the event manager instance used by this context.
      *
@@ -36,28 +31,23 @@ trait EventManagerAwareTrait
      * identifiers, in addition to any string or array of strings set to the
      * $this->eventIdentifier property.
      */
-    public function setEventManager(EventManagerInterface $events): void
+    public function set_event_manager(Event_Manager_Interface $events): void
     {
         $identifiers = [self::class, static::class];
-        if (isset($this->eventIdentifier)) {
-            if (
-                (is_string($this->eventIdentifier))
-                || (is_array($this->eventIdentifier))
-                || $this->eventIdentifier instanceof Traversable
-            ) {
-                $identifiers = array_unique(array_merge($identifiers, (array) $this->eventIdentifier));
-            } elseif (is_object($this->eventIdentifier)) {
-                $identifiers[] = $this->eventIdentifier;
+        if (isset($this->event_identifier)) {
+            if (is_string($this->event_identifier) || is_array($this->event_identifier) || $this->event_identifier instanceof Traversable) {
+                $identifiers = array_unique(array_merge($identifiers, (array) $this->event_identifier));
+            } elseif (is_object($this->event_identifier)) {
+                $identifiers[] = $this->event_identifier;
             }
             // silently ignore invalid eventIdentifier types
         }
-        $events->setIdentifiers($identifiers);
+        $events->set_identifiers($identifiers);
         $this->events = $events;
         if (method_exists($this, 'attachDefaultListeners')) {
-            $this->attachDefaultListeners();
+            $this->attach_default_listeners();
         }
     }
-
     /**
      * Retrieve the event manager
      *
@@ -65,10 +55,10 @@ trait EventManagerAwareTrait
      *
      * @return EventManagerInterface
      */
-    public function getEventManager()
+    public function get_event_manager()
     {
-        if (! $this->events instanceof EventManagerInterface) {
-            $this->setEventManager(new EventManager());
+        if (!$this->events instanceof Event_Manager_Interface) {
+            $this->set_event_manager(new Event_Manager());
         }
         return $this->events;
     }

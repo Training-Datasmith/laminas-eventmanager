@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * Interface for messengers
  */
-interface EventManagerInterface extends SharedEventsCapableInterface
+interface Event_Manager_Interface extends Shared_Events_Capable_Interface
 {
     /**
      * Create and trigger an event.
@@ -27,8 +26,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * @param  array|object $argv
      * @return ResponseCollection
      */
-    public function trigger($eventName, $target = null, $argv = []);
-
+    public function trigger($event_name, $target = null, $argv = []);
     /**
      * Create and trigger an event, applying a callback to each listener result.
      *
@@ -50,8 +48,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * @param  array|object $argv
      * @return ResponseCollection
      */
-    public function triggerUntil(callable $callback, $eventName, $target = null, $argv = []);
-
+    public function trigger_until(callable $callback, $event_name, $target = null, $argv = []);
     /**
      * Trigger an event
      *
@@ -60,8 +57,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      *
      * @return ResponseCollection
      */
-    public function triggerEvent(EventInterface $event);
-
+    public function trigger_event(Event_Interface $event);
     /**
      * Trigger an event, applying a callback to each listener result.
      *
@@ -73,8 +69,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      *
      * @return ResponseCollection
      */
-    public function triggerEventUntil(callable $callback, EventInterface $event);
-
+    public function trigger_event_until(callable $callback, Event_Interface $event);
     /**
      * Attach a listener to an event
      *
@@ -93,8 +88,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * @param  int $priority Priority at which to register listener.
      * @return callable
      */
-    public function attach($eventName, callable $listener, $priority = 1);
-
+    public function attach($event_name, callable $listener, $priority = 1);
     /**
      * Detach a listener.
      *
@@ -105,16 +99,14 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      *     indicate all events.
      * @return void
      */
-    public function detach(callable $listener, $eventName = null);
-
+    public function detach(callable $listener, $event_name = null);
     /**
      * Clear all listeners for a given event
      *
      * @param  string $eventName
      * @return void
      */
-    public function clearListeners($eventName);
-
+    public function clear_listeners($event_name);
     /**
      * Provide an event prototype to use with trigger().
      *
@@ -123,28 +115,25 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      *
      * @return void
      */
-    public function setEventPrototype(EventInterface $prototype);
-
+    public function set_event_prototype(Event_Interface $prototype);
     /**
      * Get the identifier(s) for this EventManager
      *
      * @return array
      */
-    public function getIdentifiers();
-
+    public function get_identifiers();
     /**
      * Set the identifiers (overrides any currently set identifiers)
      *
      * @param  string[] $identifiers
      * @return void
      */
-    public function setIdentifiers(array $identifiers);
-
+    public function set_identifiers(array $identifiers);
     /**
      * Add identifier(s) (appends to any currently set identifiers)
      *
      * @param  string[] $identifiers
      * @return void
      */
-    public function addIdentifiers(array $identifiers);
+    public function add_identifiers(array $identifiers);
 }

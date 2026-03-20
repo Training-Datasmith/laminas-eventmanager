@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function is_string;
-
-use Psr\Container\ContainerInterface;
-
+use Psr\Container\Container_Interface;
 /**
  * Lazy listener instance for use with LazyListenerAggregate.
  *
@@ -22,45 +19,33 @@ use Psr\Container\ContainerInterface;
  *
  * @final This class should not be extended
  */
-class LazyEventListener extends LazyListener
+class Lazy_Event_Listener extends Lazy_Listener
 {
     /** @var string Event name to which to attach. */
     private readonly string $event;
-
     /** @var null|int Priority at which to attach. */
     private readonly ?int $priority;
-
-    public function __construct(array $definition, ContainerInterface $container, array $env = [])
+    public function __construct(array $definition, Container_Interface $container, array $env = [])
     {
         parent::__construct($definition, $container, $env);
-
-        if (
-            ! isset($definition['event'])
-            || ! is_string($definition['event'])
-            || empty($definition['event'])
-        ) {
-            throw new Exception\InvalidArgumentException(
-                'Lazy listener definition is missing a valid "event" member; cannot create LazyListener'
-            );
+        if (!isset($definition['event']) || !is_string($definition['event']) || empty($definition['event'])) {
+            throw new Exception\InvalidArgumentException('Lazy listener definition is missing a valid "event" member; cannot create LazyListener');
         }
-
-        $this->event    = $definition['event'];
+        $this->event = $definition['event'];
         $this->priority = isset($definition['priority']) ? (int) $definition['priority'] : null;
     }
-
     /**
      * @return string
      */
-    public function getEvent()
+    public function get_event()
     {
         return $this->event;
     }
-
     /**
      * @param int $default
      * @return int
      */
-    public function getPriority($default = 1)
+    public function get_priority($default = 1)
     {
         return $this->priority ?? $default;
     }

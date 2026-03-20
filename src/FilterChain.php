@@ -1,19 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * FilterChain: intercepting filter manager
  *
  * @final This class should not be extended
  */
-class FilterChain implements Filter\FilterInterface
+class Filter_Chain implements Filter\Filter_Interface
 {
     /** @var Filter\FilterIterator All filters */
-    protected \Laminas\EventManager\Filter\FilterIterator $filters;
-
+    protected \Laminas\Event_Manager\Filter\Filter_Iterator $filters;
     /**
      * Constructor
      *
@@ -21,9 +19,8 @@ class FilterChain implements Filter\FilterInterface
      */
     public function __construct()
     {
-        $this->filters = new Filter\FilterIterator();
+        $this->filters = new Filter\Filter_Iterator();
     }
-
     /**
      * Apply the filters
      *
@@ -35,17 +32,13 @@ class FilterChain implements Filter\FilterInterface
      */
     public function run($context, array $argv = [])
     {
-        $chain = clone $this->getFilters();
-
-        if ($chain->isEmpty()) {
+        $chain = clone $this->get_filters();
+        if ($chain->is_empty()) {
             return;
         }
-
         $next = $chain->extract();
-
         return $next($context, $argv, $chain);
     }
-
     /**
      * Connect a filter to the chain
      *
@@ -60,7 +53,6 @@ class FilterChain implements Filter\FilterInterface
         $this->filters->insert($callback, $priority);
         return $callback;
     }
-
     /**
      * Detach a filter from the chain
      *
@@ -70,25 +62,22 @@ class FilterChain implements Filter\FilterInterface
     {
         return $this->filters->remove($filter);
     }
-
     /**
      * Retrieve all filters
      *
      * @return Filter\FilterIterator
      */
-    public function getFilters()
+    public function get_filters()
     {
         return $this->filters;
     }
-
     /**
      * Clear all filters
      */
-    public function clearFilters(): void
+    public function clear_filters(): void
     {
-        $this->filters = new Filter\FilterIterator();
+        $this->filters = new Filter\Filter_Iterator();
     }
-
     /**
      * Return current responses
      *
@@ -97,7 +86,7 @@ class FilterChain implements Filter\FilterInterface
      *
      * @return null|ResponseCollection
      */
-    public function getResponses(): null
+    public function get_responses(): null
     {
         return null;
     }

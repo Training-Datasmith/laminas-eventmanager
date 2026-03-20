@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function array_keys;
 use function array_merge;
 use function get_debug_type;
 use function is_string;
 use function sprintf;
-
 /**
  * Shared/contextual EventManager
  *
@@ -19,7 +17,7 @@ use function sprintf;
  *
  * @final This class should not be extended
  */
-class SharedEventManager implements SharedEventManagerInterface
+class Shared_Event_Manager implements Shared_Event_Manager_Interface
 {
     /**
      * Identifiers with event connections
@@ -27,7 +25,6 @@ class SharedEventManager implements SharedEventManagerInterface
      * @var array
      */
     protected $identifiers = [];
-
     /**
      * Attach a listener to an event emitted by components with specific identifiers.
      *
@@ -62,95 +59,69 @@ class SharedEventManager implements SharedEventManagerInterface
      */
     public function attach($identifier, $event, callable $listener, $priority = 1): void
     {
-        if (! is_string($identifier) || empty($identifier)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid identifier provided; must be a string; received "%s"',
-                get_debug_type($identifier),
-            ));
+        if (!is_string($identifier) || empty($identifier)) {
+            throw new Exception\InvalidArgumentException(sprintf('Invalid identifier provided; must be a string; received "%s"', get_debug_type($identifier)));
         }
-
-        if (! is_string($event) || empty($event)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid event provided; must be a non-empty string; received "%s"',
-                get_debug_type($event),
-            ));
+        if (!is_string($event) || empty($event)) {
+            throw new Exception\InvalidArgumentException(sprintf('Invalid event provided; must be a non-empty string; received "%s"', get_debug_type($event)));
         }
-
         $this->identifiers[$identifier][$event][(int) $priority][] = $listener;
     }
-
     /**
      * @inheritDoc
      */
-    public function detach(callable $listener, $identifier = null, $eventName = null, $force = false): void
+    public function detach(callable $listener, $identifier = null, $event_name = null, $force = false): void
     {
         // No identifier or wildcard identifier: loop through all identifiers and detach
-        if (null === $identifier || ('*' === $identifier && ! $force)) {
+        if (null === $identifier || '*' === $identifier && !$force) {
             foreach (array_keys($this->identifiers) as $identifier) {
-                $this->detach($listener, $identifier, $eventName, true);
+                $this->detach($listener, $identifier, $event_name, true);
             }
             return;
         }
-
-        if (! is_string($identifier) || empty($identifier)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid identifier provided; must be a string, received %s',
-                get_debug_type($identifier),
-            ));
+        if (!is_string($identifier) || empty($identifier)) {
+            throw new Exception\InvalidArgumentException(sprintf('Invalid identifier provided; must be a string, received %s', get_debug_type($identifier)));
         }
-
         // Do we have any listeners on the provided identifier?
-        if (! isset($this->identifiers[$identifier])) {
+        if (!isset($this->identifiers[$identifier])) {
             return;
         }
-
-        if (null === $eventName || ('*' === $eventName && ! $force)) {
-            foreach (array_keys($this->identifiers[$identifier]) as $eventName) {
-                $this->detach($listener, $identifier, $eventName, true);
+        if (null === $event_name || '*' === $event_name && !$force) {
+            foreach (array_keys($this->identifiers[$identifier]) as $event_name) {
+                $this->detach($listener, $identifier, $event_name, true);
             }
             return;
         }
-
-        if (! is_string($eventName) || empty($eventName)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid event name provided; must be a string, received %s',
-                get_debug_type($eventName),
-            ));
+        if (!is_string($event_name) || empty($event_name)) {
+            throw new Exception\InvalidArgumentException(sprintf('Invalid event name provided; must be a string, received %s', get_debug_type($event_name)));
         }
-
-        if (! isset($this->identifiers[$identifier][$eventName])) {
+        if (!isset($this->identifiers[$identifier][$event_name])) {
             return;
         }
-
-        foreach ($this->identifiers[$identifier][$eventName] as $priority => $listeners) {
-            foreach ($listeners as $index => $evaluatedListener) {
-                if ($evaluatedListener !== $listener) {
+        foreach ($this->identifiers[$identifier][$event_name] as $priority => $listeners) {
+            foreach ($listeners as $index => $evaluated_listener) {
+                if ($evaluated_listener !== $listener) {
                     continue;
                 }
-
                 // Found the listener; remove it.
-                unset($this->identifiers[$identifier][$eventName][$priority][$index]);
-
+                unset($this->identifiers[$identifier][$event_name][$priority][$index]);
                 // Is the priority queue empty?
-                if (empty($this->identifiers[$identifier][$eventName][$priority])) {
-                    unset($this->identifiers[$identifier][$eventName][$priority]);
+                if (empty($this->identifiers[$identifier][$event_name][$priority])) {
+                    unset($this->identifiers[$identifier][$event_name][$priority]);
                     break;
                 }
             }
-
             // Is the event queue empty?
-            if (empty($this->identifiers[$identifier][$eventName])) {
-                unset($this->identifiers[$identifier][$eventName]);
+            if (empty($this->identifiers[$identifier][$event_name])) {
+                unset($this->identifiers[$identifier][$event_name]);
                 break;
             }
         }
-
         // Is the identifier queue now empty? Remove it.
         if (empty($this->identifiers[$identifier])) {
             unset($this->identifiers[$identifier]);
         }
     }
-
     /**
      * Retrieve all listeners for a given identifier and event
      *
@@ -159,79 +130,63 @@ class SharedEventManager implements SharedEventManagerInterface
      * @return array[]
      * @throws Exception\InvalidArgumentException
      */
-    public function getListeners(array $identifiers, $eventName): array
+    public function get_listeners(array $identifiers, $event_name): array
     {
-        if ('*' === $eventName || ! is_string($eventName) || empty($eventName)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Event name passed to %s must be a non-empty, non-wildcard string',
-                __METHOD__
-            ));
+        if ('*' === $event_name || !is_string($event_name) || empty($event_name)) {
+            throw new Exception\InvalidArgumentException(sprintf('Event name passed to %s must be a non-empty, non-wildcard string', __METHOD__));
         }
-
-        $returnListeners = [];
-
+        $return_listeners = [];
         foreach ($identifiers as $identifier) {
-            if ('*' === $identifier || ! is_string($identifier) || empty($identifier)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Identifier names passed to %s must be non-empty, non-wildcard strings',
-                    __METHOD__
-                ));
+            if ('*' === $identifier || !is_string($identifier) || empty($identifier)) {
+                throw new Exception\InvalidArgumentException(sprintf('Identifier names passed to %s must be non-empty, non-wildcard strings', __METHOD__));
             }
-
             if (isset($this->identifiers[$identifier])) {
-                $listenersByIdentifier = $this->identifiers[$identifier];
-                if (isset($listenersByIdentifier[$eventName])) {
-                    foreach ($listenersByIdentifier[$eventName] as $priority => $listeners) {
-                        $returnListeners[$priority][] = $listeners;
+                $listeners_by_identifier = $this->identifiers[$identifier];
+                if (isset($listeners_by_identifier[$event_name])) {
+                    foreach ($listeners_by_identifier[$event_name] as $priority => $listeners) {
+                        $return_listeners[$priority][] = $listeners;
                     }
                 }
-                if (isset($listenersByIdentifier['*'])) {
-                    foreach ($listenersByIdentifier['*'] as $priority => $listeners) {
-                        $returnListeners[$priority][] = $listeners;
+                if (isset($listeners_by_identifier['*'])) {
+                    foreach ($listeners_by_identifier['*'] as $priority => $listeners) {
+                        $return_listeners[$priority][] = $listeners;
                     }
                 }
             }
         }
-
         if (isset($this->identifiers['*'])) {
-            $wildcardIdentifier = $this->identifiers['*'];
-            if (isset($wildcardIdentifier[$eventName])) {
-                foreach ($wildcardIdentifier[$eventName] as $priority => $listeners) {
-                    $returnListeners[$priority][] = $listeners;
+            $wildcard_identifier = $this->identifiers['*'];
+            if (isset($wildcard_identifier[$event_name])) {
+                foreach ($wildcard_identifier[$event_name] as $priority => $listeners) {
+                    $return_listeners[$priority][] = $listeners;
                 }
             }
-            if (isset($wildcardIdentifier['*'])) {
-                foreach ($wildcardIdentifier['*'] as $priority => $listeners) {
-                    $returnListeners[$priority][] = $listeners;
+            if (isset($wildcard_identifier['*'])) {
+                foreach ($wildcard_identifier['*'] as $priority => $listeners) {
+                    $return_listeners[$priority][] = $listeners;
                 }
             }
         }
-
-        foreach ($returnListeners as $priority => $listOfListeners) {
-            $returnListeners[$priority] = array_merge(...$listOfListeners);
+        foreach ($return_listeners as $priority => $list_of_listeners) {
+            $return_listeners[$priority] = array_merge(...$list_of_listeners);
         }
-
-        return $returnListeners;
+        return $return_listeners;
     }
-
     /**
      * @inheritDoc
      */
-    public function clearListeners($identifier, $eventName = null)
+    public function clear_listeners($identifier, $event_name = null)
     {
-        if (! isset($this->identifiers[$identifier])) {
+        if (!isset($this->identifiers[$identifier])) {
             return false;
         }
-
-        if (null === $eventName) {
+        if (null === $event_name) {
             unset($this->identifiers[$identifier]);
             return;
         }
-
-        if (! isset($this->identifiers[$identifier][$eventName])) {
+        if (!isset($this->identifiers[$identifier][$event_name])) {
             return;
         }
-
-        unset($this->identifiers[$identifier][$eventName]);
+        unset($this->identifiers[$identifier][$event_name]);
     }
 }

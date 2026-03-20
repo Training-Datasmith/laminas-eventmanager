@@ -1,19 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager\Filter;
+declare (strict_types=1);
+namespace Laminas\Event_Manager\Filter;
 
 use function assert;
 use function get_debug_type;
 use function is_callable;
-
-use Laminas\EventManager\Exception;
-use Laminas\Stdlib\FastPriorityQueue;
-use ReturnTypeWillChange;
-
+use Laminas\Event_Manager\Exception;
+use Laminas\Stdlib\Fast_Priority_Queue;
+use Return_Type_Will_Change;
 use function sprintf;
-
 /**
  * Specialized priority queue implementation for use with an intercepting
  * filter chain.
@@ -24,7 +20,7 @@ use function sprintf;
  * @template-extends FastPriorityQueue<TValue>
  * @final This class should not be extended
  */
-class FilterIterator extends FastPriorityQueue
+class Filter_Iterator extends Fast_Priority_Queue
 {
     /**
      * Does the queue contain a given value?
@@ -41,7 +37,6 @@ class FilterIterator extends FastPriorityQueue
         }
         return false;
     }
-
     /**
      * Insert a value into the queue.
      *
@@ -53,16 +48,11 @@ class FilterIterator extends FastPriorityQueue
      */
     public function insert($value, $priority): void
     {
-        if (! is_callable($value)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                '%s can only aggregate callables; received %s',
-                self::class,
-                get_debug_type($value)
-            ));
+        if (!is_callable($value)) {
+            throw new Exception\InvalidArgumentException(sprintf('%s can only aggregate callables; received %s', self::class, get_debug_type($value)));
         }
         parent::insert($value, $priority);
     }
-
     /**
      * Remove a value from the queue
      *
@@ -74,13 +64,12 @@ class FilterIterator extends FastPriorityQueue
      */
     public function remove($datum)
     {
-        $this->setExtractFlags(self::EXTR_BOTH);
-
+        $this->set_extract_flags(self::EXTR_BOTH);
         // Iterate and remove any matches
         $removed = false;
-        $items   = [];
+        $items = [];
         $this->rewind();
-        while (! $this->isEmpty()) {
+        while (!$this->is_empty()) {
             $item = $this->extract();
             if ($item['data'] === $datum) {
                 $removed = true;
@@ -88,16 +77,13 @@ class FilterIterator extends FastPriorityQueue
             }
             $items[] = $item;
         }
-
         // Repopulate
         foreach ($items as $item) {
             $this->insert($item['data'], $item['priority']);
         }
-
-        $this->setExtractFlags(self::EXTR_DATA);
+        $this->set_extract_flags(self::EXTR_DATA);
         return $removed;
     }
-
     /**
      * Iterate the next filter in the chain
      *
@@ -107,18 +93,16 @@ class FilterIterator extends FastPriorityQueue
      * @param  FilterIterator $chain
      * @return mixed
      */
-    #[ReturnTypeWillChange]
+    #[Return_Type_Will_Change]
     public function next($context = null, array $params = [], $chain = null)
     {
-        if (empty($context) || ($chain instanceof FilterIterator && $chain->isEmpty())) {
+        if (empty($context) || $chain instanceof Filter_Iterator && $chain->is_empty()) {
             return;
         }
-
         //We can't extract from an empty heap
-        if ($this->isEmpty()) {
+        if ($this->is_empty()) {
             return;
         }
-
         $next = $this->extract();
         assert(is_callable($next));
         return $next($context, $params, $chain);

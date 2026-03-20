@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Laminas\Event_Manager\Filter;
 
-namespace Laminas\EventManager\Filter;
-
-use Laminas\EventManager\ResponseCollection;
-
+use Laminas\Event_Manager\Response_Collection;
 /**
  * Interface for intercepting filter chains
  */
-interface FilterInterface
+interface Filter_Interface
 {
     /**
      * Execute the filter chain
@@ -18,39 +16,34 @@ interface FilterInterface
      * @return mixed
      */
     public function run($context, array $params = []);
-
     /**
      * Attach an intercepting filter
      *
      * @return callable
      */
     public function attach(callable $callback);
-
     /**
      * Detach an intercepting filter
      *
      * @return bool
      */
     public function detach(callable $filter);
-
     /**
      * Get all intercepting filters
      *
      * @return array
      */
-    public function getFilters();
-
+    public function get_filters();
     /**
      * Clear all filters
      *
      * @return void
      */
-    public function clearFilters();
-
+    public function clear_filters();
     /**
      * Get all filter responses
      *
      * @return ResponseCollection
      */
-    public function getResponses();
+    public function get_responses();
 }

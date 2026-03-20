@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 /**
  * Interface for self-registering event listeners.
@@ -12,7 +11,7 @@ namespace Laminas\EventManager;
  * then be called with the current EventManager instance, allowing the class to
  * wire up one or more listeners.
  */
-interface ListenerAggregateInterface
+interface Listener_Aggregate_Interface
 {
     /**
      * Attach one or more listeners
@@ -23,12 +22,11 @@ interface ListenerAggregateInterface
      * @param int                   $priority
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 1);
-
+    public function attach(Event_Manager_Interface $events, $priority = 1);
     /**
      * Detach all previously attached listeners
      *
      * @return void
      */
-    public function detach(EventManagerInterface $events);
+    public function detach(Event_Manager_Interface $events);
 }

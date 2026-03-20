@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function count;
-
 use SplStack;
-
 /**
  * Collection of signal handler return values
  *
@@ -15,11 +12,10 @@ use SplStack;
  * @template-extends SplStack<TValue>
  * @final This class should not be extended
  */
-class ResponseCollection extends SplStack
+class Response_Collection extends SplStack
 {
     /** @var bool */
     protected $stopped = false;
-
     /**
      * Did the last response provided trigger a short circuit of the stack?
      *
@@ -29,17 +25,15 @@ class ResponseCollection extends SplStack
     {
         return $this->stopped;
     }
-
     /**
      * Mark the collection as stopped (or its opposite)
      *
      * @param  bool $flag
      */
-    public function setStopped($flag): void
+    public function set_stopped($flag): void
     {
         $this->stopped = (bool) $flag;
     }
-
     /**
      * Convenient access to the first handler return value.
      *
@@ -49,7 +43,6 @@ class ResponseCollection extends SplStack
     {
         return parent::bottom();
     }
-
     /**
      * Convenient access to the last handler return value.
      *
@@ -65,7 +58,6 @@ class ResponseCollection extends SplStack
         }
         return parent::top();
     }
-
     /**
      * Check if any of the responses match the given value.
      *

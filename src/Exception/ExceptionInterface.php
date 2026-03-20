@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager\Exception;
+declare (strict_types=1);
+namespace Laminas\Event_Manager\Exception;
 
 use Throwable;
-
 /**
  * Base exception interface
  */
-interface ExceptionInterface extends Throwable
+interface Exception_Interface extends Throwable
 {
 }

@@ -1,15 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use function is_string;
-
 use function method_exists;
-
-use Psr\Container\ContainerInterface;
-
+use Psr\Container\Container_Interface;
 /**
  * Lazy listener instance.
  *
@@ -28,76 +24,56 @@ use Psr\Container\ContainerInterface;
  * Pass instances directly to the event manager's `attach()` method as the
  * listener argument.
  */
-class LazyListener
+class Lazy_Listener
 {
     /** @var callable Marshaled listener callback. */
     private $listener;
-
     /** @var string Method name to invoke on listener. */
     private readonly string $method;
-
     /** @var string Service name of listener. */
     private readonly string $service;
-
     public function __construct(
         array $definition,
         /** @var ContainerInterface Container from which to pull listener. */
-        private readonly ContainerInterface $container,
+        private readonly Container_Interface $container,
         /** @var array Variables/options to use during service creation, if any. */
         private readonly array $env = []
-    ) {
-        if (
-            ! isset($definition['listener'])
-            || ! is_string($definition['listener'])
-            || empty($definition['listener'])
-        ) {
-            throw new Exception\InvalidArgumentException(
-                'Lazy listener definition is missing a valid "listener" member; cannot create LazyListener'
-            );
+    )
+    {
+        if (!isset($definition['listener']) || !is_string($definition['listener']) || empty($definition['listener'])) {
+            throw new Exception\InvalidArgumentException('Lazy listener definition is missing a valid "listener" member; cannot create LazyListener');
         }
-
-        if (
-            ! isset($definition['method'])
-            || ! is_string($definition['method'])
-            || empty($definition['method'])
-        ) {
-            throw new Exception\InvalidArgumentException(
-                'Lazy listener definition is missing a valid "method" member; cannot create LazyListener'
-            );
+        if (!isset($definition['method']) || !is_string($definition['method']) || empty($definition['method'])) {
+            throw new Exception\InvalidArgumentException('Lazy listener definition is missing a valid "method" member; cannot create LazyListener');
         }
-
         $this->service = $definition['listener'];
-        $this->method  = $definition['method'];
+        $this->method = $definition['method'];
     }
-
     /**
      * Use the listener as an invokable, allowing direct attachment to an event manager.
      *
      * @return callable
      */
-    public function __invoke(EventInterface $event)
+    public function __invoke(Event_Interface $event)
     {
-        $listener = $this->fetchListener();
-        $method   = $this->method;
+        $listener = $this->fetch_listener();
+        $method = $this->method;
         return $listener->{$method}($event);
     }
-
     /**
      * @return callable
      */
-    private function fetchListener()
+    private function fetch_listener()
     {
         if ($this->listener) {
             return $this->listener;
         }
-
         // In the future, typehint against Laminas\ServiceManager\ServiceLocatorInterface,
         // which defines this message starting in v3.
-        if (method_exists($this->container, 'build') && ! empty($this->env)) {
+        if (method_exists($this->container, 'build') && !empty($this->env)) {
             $this->listener = $this->container->build($this->service, $this->env);
             return $this->listener;
         }
-
         $this->listener = $this->container->get($this->service);
         return $this->listener;
     }

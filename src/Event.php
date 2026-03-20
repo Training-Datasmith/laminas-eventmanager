@@ -1,16 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laminas\EventManager;
+declare (strict_types=1);
+namespace Laminas\Event_Manager;
 
 use ArrayAccess;
-
 use function gettype;
 use function is_array;
 use function is_object;
 use function sprintf;
-
 /**
  * Representation of an event
  *
@@ -21,17 +18,15 @@ use function sprintf;
  * @template-covariant TParams of array|ArrayAccess|object
  * @implements EventInterface<TTarget, TParams>
  */
-class Event implements EventInterface
+class Event implements Event_Interface
 {
     /** @var string|null Event name */
     protected $name;
-
     /**
      * @var object|string|null The event target
      * @psalm-var TTarget
      */
     protected $target;
-
     /**
      * @var array|ArrayAccess|object The event parameters
      * @psalm-var TParams
@@ -39,10 +34,8 @@ class Event implements EventInterface
      * default" functionality in Psalm (https://github.com/vimeo/psalm/issues/3048).
      */
     protected $params = [];
-
     /** @var bool Whether or not to stop propagation */
-    protected $stopPropagation = false;
-
+    protected $stop_propagation = false;
     /**
      * Constructor
      *
@@ -57,34 +50,29 @@ class Event implements EventInterface
     public function __construct($name = null, $target = null, $params = [])
     {
         if (null !== $name) {
-            $this->setName($name);
+            $this->set_name($name);
         }
-
         if (null !== $target) {
-            $this->setTarget($target);
+            $this->set_target($target);
         }
-
         if ($params !== null && $params !== []) {
-            $this->setParams($params);
+            $this->set_params($params);
         }
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function get_name()
     {
         return $this->name;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getTarget()
+    public function get_target()
     {
         return $this->target;
     }
-
     /**
      * {@inheritDoc}
      *
@@ -93,59 +81,50 @@ class Event implements EventInterface
      * @psalm-this-out static&self<TTarget, NewTParams>
      * @throws Exception\InvalidArgumentException
      */
-    public function setParams($params): void
+    public function set_params($params): void
     {
         /** @psalm-suppress DocblockTypeContradiction, RedundantCondition Sanity check to actually enforce docblock. */
-        if (! is_array($params) && ! is_object($params)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf('Event parameters must be an array or object; received "%s"', gettype($params))
-            );
+        if (!is_array($params) && !is_object($params)) {
+            throw new Exception\InvalidArgumentException(sprintf('Event parameters must be an array or object; received "%s"', gettype($params)));
         }
-
         /** @psalm-suppress InvalidPropertyAssignmentValue Pretty sure this is correct after this-out. */
         $this->params = $params;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getParams()
+    public function get_params()
     {
         return $this->params;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getParam($name, $default = null)
+    public function get_param($name, $default = null)
     {
         // Check in params that are arrays or implement array access
         if (is_array($this->params) || $this->params instanceof ArrayAccess) {
-            if (! isset($this->params[$name])) {
+            if (!isset($this->params[$name])) {
                 return $default;
             }
-
             /** @psalm-suppress MixedArrayAccess We've just verified `$this->params` is array-like... */
             return $this->params[$name];
         }
-
         // Check in normal objects
-        if (! isset($this->params->{$name})) {
+        if (!isset($this->params->{$name})) {
             return $default;
         }
         /** @psalm-suppress MixedPropertyFetch Only object is left over from union. */
         return $this->params->{$name};
     }
-
     /**
      * {@inheritDoc}
      */
-    public function setName($name): void
+    public function set_name($name): void
     {
         /** @psalm-suppress RedundantCastGivenDocblockType Cast is safety measure in case caller passes junk. */
         $this->name = (string) $name;
     }
-
     /**
      * {@inheritDoc}
      *
@@ -153,16 +132,15 @@ class Event implements EventInterface
      * @psalm-param NewTTarget $target
      * @psalm-this-out static&self<NewTTarget, TParams>
      */
-    public function setTarget($target): void
+    public function set_target($target): void
     {
         /** @psalm-suppress InvalidPropertyAssignmentValue Pretty sure this is correct after this-out. */
         $this->target = $target;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function setParam($name, $value): void
+    public function set_param($name, $value): void
     {
         if (is_array($this->params) || $this->params instanceof ArrayAccess) {
             // Arrays or objects implementing array access
@@ -170,25 +148,22 @@ class Event implements EventInterface
             $this->params[$name] = $value;
             return;
         }
-
         // Objects
         $this->params->{$name} = $value;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function stopPropagation($flag = true): void
+    public function stop_propagation($flag = true): void
     {
         /** @psalm-suppress RedundantCastGivenDocblockType Cast is safety measure in case caller passes junk. */
-        $this->stopPropagation = (bool) $flag;
+        $this->stop_propagation = (bool) $flag;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function propagationIsStopped()
+    public function propagation_is_stopped()
     {
-        return $this->stopPropagation;
+        return $this->stop_propagation;
     }
 }
