@@ -135,7 +135,7 @@
   <file src="src/FilterChain.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[CallbackHandler]]></code>
-      <code><![CDATA[Filter\FilterIterator]]></code>
+      <code><![CDATA[Filter\Filter_Iterator]]></code>
       <code><![CDATA[null|ResponseCollection]]></code>
     </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement>
