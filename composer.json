@@ -27,8 +27,7 @@
             "composer/package-versions-deprecated": true
         }
     },
-    "extra": {
-    },
+    "extra": [],
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
     },
@@ -50,14 +49,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Laminas\\EventManager\\": "src/"
+            "Laminas\\Event_Manager\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaminasTest\\EventManager\\": "test/",
-            "LaminasBench\\EventManager\\": "benchmarks/",
-            "LaminasPsalm\\EventManager\\": "psalm/"
+            "Laminas_Test\\Event_Manager\\": "test/",
+            "Laminas_Bench\\Event_Manager\\": "benchmarks/",
+            "Laminas_Psalm\\Event_Manager\\": "psalm/"
         }
     },
     "scripts": {
